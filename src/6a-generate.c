@@ -278,6 +278,9 @@ void generate(struct generator *gen)
     output_line(out, "    // The parser encountered an out-of-place token that doesn't fit the grammar.");
     output_line(out, "    ERROR_UNEXPECTED_TOKEN,");
     output_line(out, "");
+    output_line(out, "    // The parser could not allocate memory.");
+    output_line(out, "    ERROR_MEMORY_ALLOCATION_FAILED,");
+    output_line(out, "");
     output_line(out, "    // The input is valid so far, but incomplete; more tokens could be added to");
     output_line(out, "    // complete it.");
     output_line(out, "    ERROR_MORE_INPUT_NEEDED,");
@@ -1159,7 +1162,8 @@ void generate(struct generator *gen)
     output_line(out, "    c.stack[0].state = %%start-state;");
     output_line(out, "    c.stack[0].cont = &c;");
     output_line(out, "    uint16_t failing_index = 0;");
-    output_line(out, "    while (owl_default_tokenizer_advance(&tokenizer, &token_run)) {");
+    output_line(out, "    enum owl_error error = ERROR_NONE;");
+    output_line(out, "    while (owl_default_tokenizer_advance(&tokenizer, &token_run, &error)) {");
     output_line(out, "        if (!fill_run_states(token_run, &c, &failing_index)) {");
     output_line(out, "            free(c.stack);");
     output_line(out, "            tree->error = ERROR_UNEXPECTED_TOKEN;");
@@ -1167,6 +1171,10 @@ void generate(struct generator *gen)
     output_line(out, "            free_token_runs(&token_run);");
     output_line(out, "            return;");
     output_line(out, "        }");
+    output_line(out, "    }");
+    output_line(out, "    if (error != ERROR_NONE) {");
+    output_line(out, "        tree->error = error;");
+    output_line(out, "        return;");
     output_line(out, "    }");
     output_line(out, "    struct fill_run_state top = c.stack[c.top_index];");
     output_line(out, "    free(c.stack);");

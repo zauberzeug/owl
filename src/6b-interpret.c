@@ -632,7 +632,7 @@ void interpret(struct interpreter *interpreter, const char *text, FILE *output)
      sizeof(struct saved_state));
     context.stack[0].state = deterministic->automaton.start_state;
     context.stack[0].automaton = &deterministic->automaton;
-    while (owl_default_tokenizer_advance(&tokenizer, &token_run))
+    while (owl_default_tokenizer_advance(&tokenizer, &token_run, NULL))
         fill_run_states(&context, token_run);
     if (text[tokenizer.offset] != '\0') {
         estimate_next_token_range(&tokenizer, &error.ranges[0].start,
