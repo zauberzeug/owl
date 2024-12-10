@@ -9,3 +9,6 @@ Changes in this fork
 
 - src/6a-generate.c:
     - Change the while loop in the read_tree function to while (n < size) (Zauberzeug issue #24)
+
+- src/x-tokenize.h:
+    - Add fast '\0' check to the tokenizer without allocating memory (Zauberzeug issue #99)
