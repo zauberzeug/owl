@@ -408,6 +408,10 @@ owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
             if (has_escapes) {
                 // Zauberzeug issue #112: Escape sequences are not applied correctly
                 char *output = malloc(content_length);
+                if (!output) {
+                    *error = ERROR_MEMORY_ALLOCATION_FAILED;
+                    return false;
+                }
                 size_t j = 0;
                 // Apply escape sequences.
                 size_t i;
