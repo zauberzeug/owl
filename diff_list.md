@@ -13,4 +13,4 @@ Changes in this fork
 
 - src/x-tokenize.h:
     - Add fast '\0' check to the tokenizer without allocating memory (Zauberzeug issue #99)
-    
+    - Apply escape sequences correctly (Zauberzeug issue #112)
