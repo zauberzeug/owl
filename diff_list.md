@@ -7,4 +7,4 @@ owl_example_parser.sh:
     - Add an example script to generate the parser from the grammar
 
 src/x-tokenize.h:
-    - Apply escape sequences correctly (Zauberzeug issue #112)
+    - Apply escape sequences correctly (https://github.com/zauberzeug/lizard/pull/112)

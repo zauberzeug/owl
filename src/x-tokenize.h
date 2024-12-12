@@ -398,7 +398,7 @@ owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
             const char *string = text + content_offset;
             size_t string_length = content_length;
             if (has_escapes) {
-                // Issue: Zauberzeug/lizard#112 - Escape sequences are not applied correctly
+                // https://github.com/zauberzeug/lizard/pull/112 - Escape sequences are not applied correctly
                 char *output = malloc(content_length);
                 size_t j = 0;
                 // Apply escape sequences.
