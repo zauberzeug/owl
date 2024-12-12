@@ -236,7 +236,7 @@ static bool OWL_DONT_INLINE
 owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
  struct owl_token_run **previous_run)
 {
-    // Issue: Zauberzeug/lizard#99
+    // https://github.com/zauberzeug/lizard/issues/99 - Fast '\0' check
     if (tokenizer->text[tokenizer->offset] == '\0') {
         return false;
     }    

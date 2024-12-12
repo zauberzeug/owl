@@ -7,4 +7,4 @@ owl_example_parser.sh:
     - Add an example script to generate the parser from the grammar
 
 src/x-tokenize.h:
-    - Add fast '\0' check to the tokenizer without allocating memory (Zauberzeug issue #99)
+    - Add fast '\0' check to the tokenizer without allocating memory (https://github.com/zauberzeug/lizard/issues/99)
