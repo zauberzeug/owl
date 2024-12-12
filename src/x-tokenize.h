@@ -236,7 +236,7 @@ static bool OWL_DONT_INLINE
 owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
  struct owl_token_run **previous_run)
 {
-    // Zauberzeug issue #99
+    // Issue: Zauberzeug/lizard#99
     if (tokenizer->text[tokenizer->offset] == '\0') {
         return false;
     }    
