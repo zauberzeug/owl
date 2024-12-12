@@ -236,6 +236,11 @@ static bool OWL_DONT_INLINE
 owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
  struct owl_token_run **previous_run)
 {
+    // https://github.com/zauberzeug/lizard/issues/99 - Fast '\0' check
+    if (tokenizer->text[tokenizer->offset] == '\0') {
+        return false;
+    }    
+
     struct owl_token_run *run = malloc(sizeof(struct owl_token_run));
     if (!run)
         return false;
@@ -398,23 +403,24 @@ owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
             const char *string = text + content_offset;
             size_t string_length = content_length;
             if (has_escapes) {
+                // https://github.com/zauberzeug/lizard/pull/112 - Escape sequences are not applied correctly
+                char *output = malloc(content_length);
+                size_t j = 0;
                 // Apply escape sequences.
                 size_t i;
                 for (i = 0; i < content_length; ++i) {
-                    if (text[content_offset + i] == '\\') {
-                        string_length--;
+                    if (string[i] == '\\' && i + 1 < content_length) {
                         i++;
+                        output[j++] = ESCAPE_CHAR(string[i], tokenizer->info);
+                    } else {
+                        output[j++] = string[i];
                     }
                 }
+                string_length = j;
                 char *unescaped = ALLOCATE_STRING(string_length,
                  tokenizer->info);
-                size_t j = 0;
-                for (i = 0; i < content_length; ++i) {
-                    if (text[content_offset + i] == '\\')
-                        i++;
-                    unescaped[j++] = ESCAPE_CHAR(text[content_offset + i],
-                     tokenizer->info);
-                }
+                memcpy(unescaped, output, string_length);
+                free(output);
                 string = unescaped;
             }
             WRITE_STRING_TOKEN(offset, token_length, string, string_length,
