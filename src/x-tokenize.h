@@ -236,6 +236,11 @@ static bool OWL_DONT_INLINE
 owl_default_tokenizer_advance(struct owl_default_tokenizer *tokenizer,
  struct owl_token_run **previous_run)
 {
+    // https://github.com/zauberzeug/lizard/issues/99 - Fast '\0' check
+    if (tokenizer->text[tokenizer->offset] == '\0') {
+        return false;
+    }    
+
     struct owl_token_run *run = malloc(sizeof(struct owl_token_run));
     if (!run)
         return false;
