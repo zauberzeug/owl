@@ -5,11 +5,8 @@ echo "Generating parser..."
 if [[ ! -f src/1-parse.h ]] || find src/ -type f ! -name "1-parse.h" -newer src/1-parse.h | grep -q .
 then
     echo "Source files have changed or parser file is missing. Regenerating parser..."
-
     make
-    mv owl ./owl_executable
-
-    ./owl_executable -c grammar.owl -o src/1-parse.h
+    ./owl -c grammar.owl -o src/1-parse.h
     if [[ $? -ne 0 ]]
     then
         rm -f src/1-parse.h
