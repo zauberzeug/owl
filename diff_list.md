@@ -8,3 +8,7 @@ gen_1-parse.sh:
 
 src/x-tokenize.h:
     - Add fast '\0' check to the tokenizer without allocating memory (https://github.com/zauberzeug/lizard/issues/99)
+
+src/6a-generate.c:
+    - Increase `RESERVATION_AMOUNT` to 11 (https://github.com/zauberzeug/field_friend/issues/7)
+    - Remove the limit of 4096 from the while loop in the `read_tree` function (https://github.com/zauberzeug/lizard/issues/23)

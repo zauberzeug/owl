@@ -443,7 +443,7 @@ void generate(struct generator *gen)
 
     // Code for reading and writing packed parse trees.
     output_line(out, "// Reserve 10 bytes for each entry (the maximum encoded size of a 64-bit value).");
-    output_line(out, "#define RESERVATION_AMOUNT 10");
+    output_line(out, "#define RESERVATION_AMOUNT 11"); // https://github.com/zauberzeug/field_friend/issues/7 - increase from 10 to 11
     output_line(out, "static inline uint64_t read_tree(size_t *offset, struct %%prefix_tree *tree) {");
     output_line(out, "    uint8_t *parse_tree = tree->parse_tree;");
     output_line(out, "    size_t parse_tree_size = tree->parse_tree_size;");
@@ -465,7 +465,7 @@ void generate(struct generator *gen)
     output_line(out, "static bool grow_tree(struct %%prefix_tree *tree, size_t size)");
     output_line(out, "{");
     output_line(out, "    size_t n = tree->parse_tree_size;");
-    output_line(out, "    while (n < size || n < 4096)");
+    output_line(out, "    while (n < size)"); // https://github.com/zauberzeug/lizard/issues/23 - remove the limit check
     output_line(out, "        n = (n + 1) * 3 / 2;");
     output_line(out, "    uint8_t *parse_tree = realloc(tree->parse_tree, n);");
     output_line(out, "    if (!parse_tree)");
