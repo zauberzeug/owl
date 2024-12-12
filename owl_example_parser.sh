@@ -5,7 +5,7 @@ if [[ "language.owl" -nt main/parser.h ]] # Check if the grammar has changed
 then
 
     make
-    mv owl/owl ./owl_executable # Move the executable to the current directory
+    mv owl ./owl_executable
 
     ./owl_executable -c language.owl -o main/parser.h
     if [[ $? -ne 0 ]]
